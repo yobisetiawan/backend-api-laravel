@@ -17,21 +17,15 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix('v1')->group(function () {
 
-    Route::middleware('auth:api')->group(function () {
-        Route::get('/current-user',  'CurrentUserController@show');
-        Route::put('/current-user',  'CurrentUserController@update');
+    Route::prefix('auth')->group(function () {
+        Route::post('/login', 'AuthController@login');
+        Route::post('/register', 'AuthController@register');
+        Route::post('/forgot-password', 'AuthController@forgot-password');
     });
 
 
-    Route::prefix('auth')->group(function () {
-        // Route::post('/login',  function (Request $request) {
-        //     return $request->user();
-        // });
-        // Route::post('/register',  function (Request $request) {
-        //     return $request->user();
-        // });
-        // Route::post('/forgot-password',  function (Request $request) {
-        //     return $request->user();
-        // });
+    Route::middleware('auth:api')->group(function () {
+        Route::get('/current-user',  'CurrentUserController@show');
+        Route::put('/current-user',  'CurrentUserController@update');
     });
 });

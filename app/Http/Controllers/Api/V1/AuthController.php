@@ -7,11 +7,18 @@ use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
-    public function index(){
-        return 'test';
+    public function login()
+    {
+        return 'login';
     }
 
-    public function show(){
-        return 'test';
+    public function register()
+    {
+        return 'register';
+    }
+
+    public function forgotPassword()
+    {
+        return 'forgotPassword';
     }
 }
