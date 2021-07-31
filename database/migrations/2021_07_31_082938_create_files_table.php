@@ -17,6 +17,7 @@ class CreateFilesTable extends Migration
             $table->id();
             $table->string('url');
             $table->string('path');
+            $table->string('slug');
             $table->jsonb('data')->nullable();
             $table->morphs('fileable');
             $table->timestamps();
