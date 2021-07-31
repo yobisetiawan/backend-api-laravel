@@ -44,6 +44,9 @@ class AuthRepository extends Repository
 
     public function getUserToken(User $user)
     {
+
+        $user->tokens()->delete();
+
         return [
             'user' => $user,
             'token' => $user->createToken('nova')->accessToken
