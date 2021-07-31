@@ -1,8 +1,4 @@
- 
 
-#db
-php artisan migrate
+composer dump-autoload
+php artisan migrate:refresh --seed
 php artisan passport:install
-
-#start
-php artisan serve

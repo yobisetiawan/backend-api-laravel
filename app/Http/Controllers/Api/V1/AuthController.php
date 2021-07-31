@@ -3,40 +3,41 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
+use App\Http\Requests\LoginRequest;
+use App\Http\Requests\RegisterRequest;
+use App\Repositories\Modules\Auth\AuthRepository;
+
 
 class AuthController extends Controller
 {
-    public function login(Request $request)
+    private $repo;
+
+    public function __construct()
     {
-        $request->validate([
-            'email' => ['required', 'email'],
-            'password' => ['required'],
-        ]);
-
-        $user = User::where('email', $request->input('email'))->first();
-
-        $valid = $user && Hash::check($request->input('password'), $user->password);
-
-        if ($valid) {
-            return ['token' =>  $user->createToken('nova')->accessToken];
-        }
-
-        return ['error' =>  'Invalid Credential'];
+        $this->repo = new AuthRepository;
     }
 
-    public function register()
+    public function login(LoginRequest $req)
     {
-        return User::updateOrCreate(
-            ['email' => 'yobi.studio@gmail.com'],
-            ['name' => 'yobi bina setiawan', 'password' => Hash::make('password')]
+        return $this->dbSafe(
+            fn () => $this->repo->login($req),
+            fn ($data) => $data,
+        );
+    }
+
+    public function register(RegisterRequest $req)
+    {
+        return $this->dbSafe(
+            fn () => $this->repo->register($req),
+            fn ($data) => $data,
         );
     }
 
     public function forgotPassword()
     {
-        return 'forgotPassword';
+        return $this->dbSafe(
+            fn () => $this->repo->forgotPassword(),
+            fn ($data) => $data,
+        );
     }
 }
