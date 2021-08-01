@@ -4,11 +4,19 @@ namespace App\Repositories\Modules\Auth;
 
 use App\Repositories\Repository;
 use App\Models\User;
+use AuthMailRepository;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 
 class AuthRepository extends Repository
 {
+
+    private $mail;
+
+    public function __construct()
+    {
+        $this->mail = new AuthMailRepository
+    }
 
     public function login($req)
     {
@@ -32,6 +40,7 @@ class AuthRepository extends Repository
                 'password' => Hash::make('password')
             ]
         );
+        $this->mail->sendRegisterEmail($user);
         return $this->getUserToken($user);
     }
 
