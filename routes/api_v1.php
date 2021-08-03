@@ -23,9 +23,9 @@ Route::prefix('v1')->group(function () {
         Route::post('/forgot-password', 'AuthController@forgot-password');
     });
 
-
     Route::middleware('auth:api')->group(function () {
         Route::get('/current-user',  'CurrentUserController@show');
-        Route::put('/current-user',  'CurrentUserController@update');
+       
     });
+    Route::put('/current-user',  'CurrentUserController@update');
 });

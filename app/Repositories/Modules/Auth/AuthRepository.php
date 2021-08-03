@@ -4,7 +4,7 @@ namespace App\Repositories\Modules\Auth;
 
 use App\Repositories\Repository;
 use App\Models\User;
-use AuthMailRepository;
+use App\Repositories\Modules\Mail\AuthMailRepository;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 
@@ -15,7 +15,7 @@ class AuthRepository extends Repository
 
     public function __construct()
     {
-        $this->mail = new AuthMailRepository
+        $this->mail = new AuthMailRepository;
     }
 
     public function login($req)

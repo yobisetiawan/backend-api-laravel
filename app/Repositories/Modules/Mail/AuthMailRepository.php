@@ -1,4 +1,5 @@
 <?php
+namespace App\Repositories\Modules\Mail;
 
 use App\Mail\RegisterMail;
 use App\Models\User;
