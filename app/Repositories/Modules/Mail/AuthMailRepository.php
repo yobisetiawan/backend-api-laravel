@@ -1,7 +1,10 @@
 <?php
+
 namespace App\Repositories\Modules\Mail;
 
+use App\Mail\ForgotPasswordMail;
 use App\Mail\RegisterMail;
+use App\Models\Token;
 use App\Models\User;
 use App\Repositories\Repository;
 use Illuminate\Support\Facades\Mail;
@@ -9,14 +12,14 @@ use Illuminate\Support\Facades\Mail;
 class AuthMailRepository extends Repository
 {
 
-    public function sendRegisterEmail(User $user)
+    public function sendRegisterEmail(User $user, Token $token)
     {
-        return Mail::to($user->email)->send(new RegisterMail);
+        return Mail::to($user->email)->send(new RegisterMail($user, $token));
     }
 
-    public function sendForgotPasswordEmail(User $user)
+    public function sendForgotPasswordEmail(User $user, Token $token)
     {
-        return $user;
+        return Mail::to($user->email)->send(new ForgotPasswordMail($user, $token));
     }
 
     public function sendUpdatedPasswordEmail(User $user)
@@ -28,6 +31,4 @@ class AuthMailRepository extends Repository
     {
         return $user;
     }
-
-
 }
