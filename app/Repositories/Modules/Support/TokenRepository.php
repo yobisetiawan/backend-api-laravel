@@ -34,4 +34,27 @@ class TokenRepository
 
         return $get_token;
     }
+
+
+    public function checkToken(string $token, string $slug)
+    {
+        if (!$token = Token::has('user')->where('token', $token)->where('active', true)
+            ->where('purpose', $slug)->first()) {
+            custom_error('Token Not Found', 404);
+        }
+
+        if (!empty($token->expired_at) && Carbon::now() > Carbon::parse($token->expired_at)) {
+            custom_error("Token expired", 500);
+        }
+
+        return $token;
+    }
+
+    public function setTokenActivatedAt(Token $token)
+    {
+        return $token->update([
+            'active' => false,
+            'activated_at' => Carbon::now(),
+        ]);
+    }
 }

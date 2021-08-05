@@ -36,6 +36,14 @@ class AuthRepository extends Repository
         custom_error(['error' => "Invalid Credential"]);
     }
 
+    public function logout($req)
+    {
+        if ($user = $req->user()) {
+            $user->token()->revoke();
+        }
+        return ['success' => true];
+    }
+
 
     public function register($req)
     {
@@ -43,7 +51,7 @@ class AuthRepository extends Repository
             [
                 'name' => $req->input('name'),
                 'email' => strtolower($req->input('email')),
-                'password' => Hash::make('password')
+                'password' => Hash::make($req->input('name'))
             ]
         );
 
@@ -62,6 +70,23 @@ class AuthRepository extends Repository
         $token_obj = $this->token->create($user, 'forgot-password');
 
         $this->mail->sendForgotPasswordEmail($user, $token_obj);
+    }
+
+
+    public function resetPassword($req, $token)
+    {
+        $token_obj = $this->token->checkToken($token, 'forgot-password');
+        $user = $token_obj->user;
+
+        $user->update([
+            'password' => Hash::make($req->input('password'))
+        ]);
+
+        $this->token->setTokenActivatedAt($token_obj);
+
+        $this->mail->sendUpdatedPasswordEmail($user);
+
+        return ['success' => true];
     }
 
 

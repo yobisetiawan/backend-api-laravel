@@ -9,11 +9,6 @@ use Illuminate\Support\Facades\Auth;
 class CurrentUserController extends Controller
 {
 
-    private $form_type = [
-        'change-password' => $this->changePassword;
-    ]
-
-
     public function show()
     {
         return Auth::user();
@@ -24,7 +19,8 @@ class CurrentUserController extends Controller
         return 'update';
     }
 
-    publi function changePassword(){
-
+    public function changePassword()
+    {
+        return 'changePassword';
     }
 }

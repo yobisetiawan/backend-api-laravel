@@ -35,7 +35,7 @@ class RegisterMail extends Mailable
     public function build()
     {
         return $this->subject('Verify Email')
-            ->view('mails.auth.register')->with([
+            ->markdown('mails.auth.register')->with([
                 'user_name' => $this->user->name,
                 'url' => url('api/v1/auth/verify-email/' . $this->token->token),
             ]);
