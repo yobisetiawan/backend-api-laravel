@@ -51,7 +51,7 @@ class AuthRepository extends Repository
             [
                 'name' => $req->input('name'),
                 'email' => strtolower($req->input('email')),
-                'password' => Hash::make($req->input('name'))
+                'password' => Hash::make($req->input('password'))
             ]
         );
 

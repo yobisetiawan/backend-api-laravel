@@ -27,7 +27,11 @@ Route::prefix('v1')->group(function () {
     });
 
     Route::middleware('auth:api')->group(function () {
-        Route::get('/current-user',  'CurrentUserController@show');
+        Route::prefix('current-user')->group(function () {
+            Route::get('/',  'CurrentUserController@show');
+            Route::put('/change-avatar',  'CurrentUserController@changeAvatar');
+            Route::put('/change-password',  'CurrentUserController@changePassword');
+            Route::put('/change-profile',  'CurrentUserController@changeProfile'); 
+        });
     });
-    Route::put('/current-user',  'CurrentUserController@update');
 });
