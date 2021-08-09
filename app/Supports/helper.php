@@ -14,8 +14,8 @@ if (!function_exists('custom_error')) {
             }
 
             throw new ValidationException($validator);
-        } 
-        
-        throw new Exception($message, $status);
+        }
+
+        abort($status, $message);
     }
 }
