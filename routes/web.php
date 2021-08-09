@@ -16,3 +16,11 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+
+Route::get('/mailable', function () {
+    $user = App\Models\User::first();
+    $token = App\Models\Token::first();
+
+    return new App\Mail\RegisterMail($user, $token);
+});
