@@ -2,6 +2,7 @@
 
 namespace App\Repositories\Modules\Auth;
 
+use App\Http\Resources\UserResource;
 use App\Repositories\Repository;
 use App\Models\User;
 use App\Repositories\Modules\Mail\AuthMailRepository;
@@ -98,8 +99,37 @@ class AuthRepository extends Repository
         $user->tokens()->delete();
 
         return [
-            'user' => $user,
+            'user' => new UserResource($this->itemWith($user, ['avatar', 'roles'])),
             'token' => $user->createToken('nova')->accessToken
         ];
+    }
+
+    public function resendVerifyEmail($req)
+    {
+        $user = $req->user();
+
+        if (empty($user->email_verified_at)) {
+
+            $token_obj = $this->token->create($user, 'verify-email');
+
+            $this->mail->sendRegisterEmail($user, $token_obj);
+        }
+
+        return ['success' => true];
+    }
+
+    public function verifyEmail($token_str)
+    {
+
+        $token_obj = $this->token->checkToken($token_str, 'verify-email');
+
+        $user = $token_obj->user ?? false;
+
+        if ($user && empty($user->email_verified_at)) {
+            $user->update(['email_verified_at' => Carbon::now()]);
+            $this->token->setTokenActivatedAt($token_obj);
+        }
+
+        return ['success' => true];
     }
 }

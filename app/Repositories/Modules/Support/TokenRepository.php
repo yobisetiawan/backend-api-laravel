@@ -4,9 +4,10 @@ namespace App\Repositories\Modules\Support;
 
 use App\Models\Token;
 use App\Models\User;
+use App\Repositories\Repository;
 use Carbon\Carbon;
 
-class TokenRepository
+class TokenRepository extends Repository
 {
     public function create(User $user, string $purpose, int $expired = 3, $extra = null)
     {

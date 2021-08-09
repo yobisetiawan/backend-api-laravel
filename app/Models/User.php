@@ -19,10 +19,8 @@ class User extends Authenticatable
      *
      * @var array
      */
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
+    protected $guarded  = [
+        'id'
     ];
 
     /**
@@ -46,6 +44,6 @@ class User extends Authenticatable
 
     public function avatar()
     {
-        return $this->morphOne(File::class, 'fileable');
+        return $this->morphOne(File::class, 'fileable')->where('slug', 'avatar');
     }
 }
