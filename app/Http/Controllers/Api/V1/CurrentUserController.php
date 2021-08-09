@@ -19,36 +19,23 @@ class CurrentUserController extends Controller
         $this->repo = new CurrentUserRepository;
     }
 
-
     public function show(Request $req)
     {
-        return $this->dbSafe(
-            fn () => $this->repo->show($req),
-            fn ($data) => $data,
-        );
+        return $this->dbSafe(fn () => $this->repo->show($req));
     }
 
     public function changePassword(ChangePasswordRequest $req)
     {
-        return $this->dbSafe(
-            fn () => $this->repo->changePassword($req),
-            fn ($data) => $data,
-        );
+        return $this->dbSafe(fn () => $this->repo->changePassword($req));
     }
 
     public function changeAvatar(ChangeAvatarRequest $req)
     {
-        return $this->dbSafe(
-            fn () => $this->repo->changeAvatar($req),
-            fn ($data) => $data,
-        );
+        return $this->dbSafe(fn () => $this->repo->changeAvatar($req));
     }
 
     public function changeProfile(ChangeProfileRequest $req)
     {
-        return $this->dbSafe(
-            fn () => $this->repo->changeProfile($req),
-            fn ($data) => $data,
-        );
+        return $this->dbSafe(fn () => $this->repo->changeProfile($req));
     }
 }

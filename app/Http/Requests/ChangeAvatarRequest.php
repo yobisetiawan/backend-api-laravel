@@ -13,7 +13,7 @@ class ChangeAvatarRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,7 @@ class ChangeAvatarRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'file' => 'max:5000|mimes:jpeg,jpg,png|required'
         ];
     }
 }

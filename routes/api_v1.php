@@ -24,6 +24,11 @@ Route::prefix('v1')->group(function () {
         Route::post('/forgot-password', 'AuthController@forgotPassword');
         Route::get('/reset-password/{token}', fn ($token) => redirect()->to(env('FE_HOST') . '/reset-password/' . $token));
         Route::post('/reset-password/{token}', 'AuthController@resetPassword');
+        Route::get('/verify-email/{token}', 'AuthController@verifyEmail');
+
+        Route::middleware('auth:api')->group(function () {
+            Route::post('/resend-verify-email', 'AuthController@resendVerifyEmail');
+        });
     });
 
     Route::middleware('auth:api')->group(function () {
@@ -31,7 +36,7 @@ Route::prefix('v1')->group(function () {
             Route::get('/',  'CurrentUserController@show');
             Route::put('/change-avatar',  'CurrentUserController@changeAvatar');
             Route::put('/change-password',  'CurrentUserController@changePassword');
-            Route::put('/change-profile',  'CurrentUserController@changeProfile'); 
+            Route::put('/change-profile',  'CurrentUserController@changeProfile');
         });
     });
 });

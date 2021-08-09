@@ -21,41 +21,36 @@ class AuthController extends Controller
 
     public function login(LoginRequest $req)
     {
-        return $this->dbSafe(
-            fn () => $this->repo->login($req),
-            fn ($data) => $data,
-        );
+        return $this->dbSafe(fn () => $this->repo->login($req));
     }
 
     public function register(RegisterRequest $req)
     {
-        return $this->dbSafe(
-            fn () => $this->repo->register($req),
-            fn ($data) => $data,
-        );
+        return $this->dbSafe(fn () => $this->repo->register($req));
     }
 
     public function forgotPassword(ForgotPasswordRequest $req)
     {
-        return $this->dbSafe(
-            fn () => $this->repo->forgotPassword($req),
-            fn ($data) => $data,
-        );
+        return $this->dbSafe(fn () => $this->repo->forgotPassword($req));
     }
 
     public function resetPassword(ResetPasswordRequest $req, $token)
     {
-        return $this->dbSafe(
-            fn () => $this->repo->resetPassword($req, $token),
-            fn ($data) => $data,
-        );
+        return $this->dbSafe(fn () => $this->repo->resetPassword($req, $token));
     }
 
     public function logout(Request $req)
     {
-        return $this->dbSafe(
-            fn () => $this->repo->logout($req),
-            fn ($data) => $data,
-        );
+        return $this->dbSafe(fn () => $this->repo->logout($req));
+    }
+
+    public function resendVerifyEmail(Request $req)
+    {
+        return $this->dbSafe(fn () => $this->repo->resendVerifyEmail($req));
+    }
+
+    public function verifyEmail(string $token)
+    {
+        return $this->dbSafe(fn () => $this->repo->verifyEmail($token));
     }
 }
