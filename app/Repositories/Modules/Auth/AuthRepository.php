@@ -55,6 +55,8 @@ class AuthRepository extends Repository
             ]
         );
 
+        $user->assignRole('user');
+
         $token_obj = $this->token->create($user, 'verify-email');
 
         $this->mail->sendRegisterEmail($user, $token_obj);
