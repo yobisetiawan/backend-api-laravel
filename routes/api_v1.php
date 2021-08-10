@@ -38,5 +38,7 @@ Route::prefix('v1')->group(function () {
             Route::put('/change-password',  'CurrentUserController@changePassword');
             Route::put('/change-profile',  'CurrentUserController@changeProfile');
         });
+
+        Route::get('users',  'UserController@index');
     });
 });
